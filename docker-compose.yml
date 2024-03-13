@@ -1,0 +1,31 @@
+version: '1'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: DockerFile
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www/html
+    environment:
+      - APP_ENV=local
+      - APP_KEY=base64:L3w70Rspv3eKLyFDWX8b4YUYlOHIP7wKddj9F5z4e3A=
+    depends_on:
+      - db
+    networks:
+      - laravel_network
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: SIC
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    networks:
+      - laravel_network
+networks:
+  laravel_network:
+    driver: bridge
